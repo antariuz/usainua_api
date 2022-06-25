@@ -1,0 +1,12 @@
+package avada.media.usainua_admin.repository;
+
+import avada.media.usainua_admin.model.order.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    void deleteOrderById(Long id);
+
+}
