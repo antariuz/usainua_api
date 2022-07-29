@@ -1,8 +1,10 @@
-name: Java CI with Maven
+name: Main branch testing & deploy
 
 on:
   push:
-    branches: [ "master", "release" ]
+    branches: 
+     - master
+     - release
 
 jobs:
   build:
