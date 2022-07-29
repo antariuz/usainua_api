@@ -1,4 +1,4 @@
-package avada.media.usainua_admin.model.common;
+package avada.media.usainua_api.model.common;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,8 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
-    public static void saveFile(String uploadDir, String fileName,
-                                MultipartFile multipartFile) throws IOException {
+    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get("uploaded/" + uploadDir);
 
         if (!Files.exists(uploadPath)) {

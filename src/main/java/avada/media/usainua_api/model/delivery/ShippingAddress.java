@@ -1,52 +1,59 @@
-package avada.media.usainua_admin.model.delivery;
+package avada.media.usainua_api.model.delivery;
 
-import avada.media.usainua_admin.model.common.MappedEntity;
-import avada.media.usainua_admin.model.delivery.local.City;
-import avada.media.usainua_admin.model.delivery.local.PostOfficeBranch;
-import avada.media.usainua_admin.model.delivery.local.Street;
-import avada.media.usainua_admin.model.delivery.local.Region;
+import avada.media.usainua_api.model.common.MappedEntity;
+import avada.media.usainua_api.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table
 @Data
 public class ShippingAddress extends MappedEntity {
 
-    @Column(name = "address_label")
-    private String addressLabel;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Set<Country> countries = new HashSet<>();
-    @Column(name = "local_delivery_type")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
+    private String title;
+    private Country country;
+    @Column(name = "delivery_type")
     @Enumerated(EnumType.STRING)
-    private LocalDeliveryType localDeliveryType;
+    private DeliveryType deliveryType;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "region_id")
-    private Region region;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "city_id")
-    private City city;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "post_office_branch_id")
-    private PostOfficeBranch postOfficeBranch;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "street_id")
-    private Street street;
+    private String region;
+    private String city;
+    @Column(name = "post_branch")
+    private String postBranch;
+    private String street;
     @Column(name = "house_number")
     private String houseNumber;
     @Column(name = "apartment_number")
     private Integer apartmentNumber;
-    public enum LocalDeliveryType {
-        TO_POST_OFFICE_BRANCH, TO_LOCAL_ADDRESS
+    private boolean main;
+
+    public enum Country {
+        AFGHANISTAN,
+        CHINA,
+        RUSSIAN_FEDERATION,
+        UKRAINE,
+        UNITED_ARAB_EMIRATES,
+        UNITED_KINGDOM,
+        UNITED_STATES
+    }
+
+    public enum DeliveryType {
+        TO_POST_OFFICE_BRANCH,
+        TO_LOCAL_ADDRESS
     }
 
 }

@@ -1,7 +1,8 @@
-package avada.media.usainua_admin.model.order;
+package avada.media.usainua_api.model.order;
 
-import avada.media.usainua_admin.model.common.MappedEntity;
-import avada.media.usainua_admin.model.product.Product;
+import avada.media.usainua_api.model.common.MappedEntity;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,21 +14,29 @@ import java.util.Set;
 @Data
 public class SubOrder extends MappedEntity {
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "product_id")
-    private Product product;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @Column(name = "additional_services")
-    private Set<AdditionalService> additionalServices = new HashSet<>();
-    @Lob
-    private String description;
+    private String url;
     @Column(name = "quantity")
     private Integer qty;
-    private Double weight;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "invoice_file_id")
+    private Double price;
+    @Column(name = "estimate_weight")
+    private Double estimateWeight;
+
+    @ElementCollection(targetClass = AdditionalServices.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "suborder_additional_service", joinColumns = @JoinColumn(name = "suborder_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "additional_services")
+    private Set<AdditionalServices> additionalServices = new HashSet<>();
+    @Lob
+    private String description;
+    @OneToOne
     private InvoiceFile invoiceFile;
     @Column(name = "tracking_number")
     private String trackingNumber;
+
+    public enum AdditionalServices {
+        TAKE_PHOTO,
+        ADDITIONAL_PACKAGE,
+        ON_OFF_CHECK
+    }
 
 }
