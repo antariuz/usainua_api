@@ -1,17 +1,24 @@
-package avada.media.usainua_admin.service;
+package avada.media.usainua_api.service;
 
-import avada.media.usainua_admin.model.user.User;
+import avada.media.usainua_api.model.user.Role;
+import avada.media.usainua_api.model.user.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 public interface UserService {
 
-    void createUser(User user);
+    boolean sendEmailConfirmationCode(String email);
 
-    void updateUser(User user);
+    void randomPassword(UserDetails userDetails);
 
-    void deleteUser(Long id);
+    void saveUser(User user);
 
-    Iterable<User> getAllUsers();
+    Role saveRole(Role role);
 
-    User getUserById(Long id);
+    Role getRoleByName(String name);
+
+    Optional<User> getUserByEmail(String email);
 
 }

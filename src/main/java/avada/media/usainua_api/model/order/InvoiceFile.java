@@ -1,6 +1,6 @@
-package avada.media.usainua_admin.model.order;
+package avada.media.usainua_api.model.order;
 
-import avada.media.usainua_admin.model.common.MappedEntity;
+import avada.media.usainua_api.model.common.MappedEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;

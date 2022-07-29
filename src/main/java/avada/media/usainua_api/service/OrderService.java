@@ -1,17 +1,20 @@
-package avada.media.usainua_admin.service;
+package avada.media.usainua_api.service;
 
-import avada.media.usainua_admin.model.order.Order;
+import avada.media.usainua_api.model.PageResponse;
+import avada.media.usainua_api.model.Product;
+import avada.media.usainua_api.model.order.Order;
+import org.springframework.data.domain.Page;
 
 public interface OrderService {
 
-    void createOrder(Order order);
+    void saveOrder(Order order);
 
     void updateOrder(Order order);
 
     void deleteOrder(Long id);
 
-    Iterable<Order> getAllOrders();
+    Order getOrderByIdAndUserId(Long orderId, Long userId);
 
-    Order getOrderById(Long id);
+    PageResponse<Order> getOrdersByPageByUserId(Long id, int pageNumber, int pageSize, String sortBy, String sortDirection);
 
 }
