@@ -27,7 +27,11 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Step 4 - Check place of war file
-        run: ls
+        run: ls target/
 
-      - name: Step 5 - Auto-deploy on Tomcat
+      - name: Step 5 - Check my external ip
+        run: curl https://ipinfo.io/ip
+
+
+      - name: Step 6 - Auto-deploy on Tomcat
         run: curl -v -u admin:32167 http://213.200.39.253:8080/manager/text/deploy?war=usainua_api-0.0.1-SNAPSHOT.war
