@@ -28,6 +28,6 @@ jobs:
 
       - name: Step 4 - Auto-deploy on Tomcat
         run:
-          cd target
-          ls
+          cd target,
+          ls,
           curl http://github:github@213.200.39.253/manager/text/deploy?war=usainua_api-0.0.1-SNAPSHOT.war&path=/usainua_api&update=true
