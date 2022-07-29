@@ -1,10 +1,9 @@
 name: Main branch testing & deploy
 
 on:
-  push:
-    branches: 
-     - master
-     - release
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -12,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
-    - name: Step 1 - Checkout master branch from GitHub
-      uses: actions/checkout@v3
-    
-    - name: Step 2 - Set up JDK 1.8
-      uses: actions/setup-java@v3
-      with:
-        java-version: 8
-        distribution: temurin
-        architecture: x64
-        cache: maven
 
-    - name: Step 3 - Build with Maven
-      run: mvn -B package --file pom.xml
+      - name: Step 1 - Checkout master branch from GitHub
+        uses: actions/checkout@v3
+
+      - name: Step 2 - Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: temurin
+          architecture: x64
+          cache: maven
+
+      - name: Step 3 - Build with Maven
+        run: mvn -B package --file pom.xml
