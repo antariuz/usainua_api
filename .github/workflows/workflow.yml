@@ -26,12 +26,5 @@ jobs:
       - name: Step 3 - Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Step 4 - Check place of war file
-        run: ls target/
-
-      - name: Step 5 - Check my external ip
-        run: curl https://ipinfo.io/ip
-
-
-      - name: Step 6 - Auto-deploy on Tomcat
-        run: curl -u admin:32167 http://213.200.39.253:8080/manager/text/deploy?war=usainua_api-0.0.1-SNAPSHOT.war
+      - name: Step 4 - Auto-deploy on Tomcat
+        run: curl http://github:github@213.200.39.253/manager/text/deploy?war=./target/usainua_api-0.0.1-SNAPSHOT.war&path=/usainua_api&update=true
