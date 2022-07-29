@@ -34,4 +34,4 @@ jobs:
 
 
       - name: Step 6 - Auto-deploy on Tomcat
-        run: curl -v -u admin:32167 http://213.200.39.253:8080/manager/text/deploy?war=usainua_api-0.0.1-SNAPSHOT.war
+        run: curl -u admin:32167 http://213.200.39.253:8080/manager/text/deploy?war=usainua_api-0.0.1-SNAPSHOT.war
