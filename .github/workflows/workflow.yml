@@ -25,3 +25,6 @@ jobs:
 
       - name: Step 3 - Build with Maven
         run: mvn -B package --file pom.xml
+
+      - name: Step 4 - Auto-deploy on Tomcat
+        run: curl -u admin:32167 http://213.200.39.253:8080/host-manager/text/add?name=usainua&aliases=usainusaaliases&/home/runner/work/usainua.api/usainua.api/target/usainua_api-0.0.1-SNAPSHOT.war&autoDeploy=true
