@@ -25,15 +25,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManagerBuilder.class).build();
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager, userService, appConst);
-        customAuthenticationFilter.setFilterProcessesUrl("/api/auth/signin");
+        customAuthenticationFilter.setFilterProcessesUrl("/auth/signin");
         http
                 .csrf().disable()
                 .cors().disable()
                 .authenticationManager(authenticationManager)
                 .authorizeHttpRequests((authz) -> authz
-                                .antMatchers("/api/auth/**").permitAll()
+                                .antMatchers("/auth/**").permitAll()
                                 .antMatchers(appConst.getSWAGGER_PATHS_WHITELIST()).permitAll()
-                                .antMatchers("/api/**").hasAuthority("ROLE_USER")
+                                .antMatchers("/**").hasAuthority("ROLE_USER")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new CustomAuthorizationFilter(appConst), UsernamePasswordAuthenticationFilter.class)
