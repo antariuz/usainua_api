@@ -34,9 +34,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().startsWith("/api/auth")
-                || request.getServletPath().equals("/api/send_code")
-                || request.getServletPath().equals("/api/token/refresh")
+        if (request.getServletPath().startsWith("/auth")
+                || request.getServletPath().equals("/send_code")
+                || request.getServletPath().equals("/token/refresh")
                 || request.getServletPath().equals("/v2/api-docs")
                 || request.getServletPath().startsWith("/swagger-resources")
                 || request.getServletPath().equals("/configuration/ui")
@@ -47,7 +47,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 || request.getServletPath().startsWith("/swagger-ui/")
                 || request.getServletPath().startsWith("/test.yaml")
                 || request.getServletPath().startsWith("/favicon.ico")
-                || request.getServletPath().startsWith("/api/swagger-ui/")
+                || request.getServletPath().startsWith("/swagger-ui/")
         ) {
             filterChain.doFilter(request, response);
         } else {
