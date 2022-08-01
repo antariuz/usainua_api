@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Api(tags = "shipping address")
 @RequiredArgsConstructor
 public class ShippingAddressController {

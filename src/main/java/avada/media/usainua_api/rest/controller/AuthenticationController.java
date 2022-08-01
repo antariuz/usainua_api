@@ -34,7 +34,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(tags = "auth")
 @Slf4j
