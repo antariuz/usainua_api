@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Api(tags = "personal data")
 @RequiredArgsConstructor
 public class PersonalDataController {

@@ -32,7 +32,7 @@ class UserControllerTest {
 
     @Test
     void responseOfGetUserShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getUser"))
+        mockMvc.perform(get("/getUser"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -42,7 +42,7 @@ class UserControllerTest {
     void responseOfGetUserShouldBeOk() throws Exception {
         User user = getUser();
         when(userRepo.findByEmail("user")).thenReturn(Optional.of(user));
-        mockMvc.perform(get("/api/getUser").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getUser").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string(new ObjectMapper().writeValueAsString(user)));

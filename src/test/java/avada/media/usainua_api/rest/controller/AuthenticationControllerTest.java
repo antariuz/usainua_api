@@ -56,7 +56,7 @@ class AuthenticationControllerTest {
         when(userRepo.save(any(User.class))).thenReturn(new User());
         doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
         mockMvc.perform(
-                        get("/api/auth/send_code").param("email", email))
+                        get("/auth/send_code").param("email", email))
                 .andExpect(status().isOk());
         verify(userRepo, times(2)).findByEmail(email);
         verify(passwordEncoder, times(1)).encode(anyString());
@@ -69,7 +69,7 @@ class AuthenticationControllerTest {
     void getEmailConfirmationWithWrongEmail() throws Exception {
         String email = "petrov@ gmail.com";
         mockMvc.perform(
-                        get("/api/auth/send_code").param("email", email))
+                        get("/auth/send_code").param("email", email))
                 .andExpect(status().isBadRequest());
     }
 
@@ -83,7 +83,7 @@ class AuthenticationControllerTest {
         given(personalDataRepo.save(any(PersonalData.class))).willReturn(new PersonalData());
         doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
         mockMvc.perform(
-                        get("/api/auth/send_code").param("email", email))
+                        get("/auth/send_code").param("email", email))
                 .andExpect(status().isOk());
         verify(userRepo, times(1)).findByEmail(email);
         verify(passwordEncoder, times(1)).encode(anyString());
@@ -94,9 +94,8 @@ class AuthenticationControllerTest {
 
     @Test
     void refreshTokenWithNoTokenInHeader() throws Exception {
-        this.mockMvc.perform(get("/api/auth/token/refresh"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(status().reason(containsString("Refresh token has not been found or wrong")))
+        this.mockMvc.perform(get("/auth/token/refresh"))
+                .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
 
@@ -105,7 +104,7 @@ class AuthenticationControllerTest {
     void refreshTokenWithTokenInHeader() throws Exception {
         String email = "tymur.foshch@gmail.com";
         given(userRepo.findByEmail(email)).willReturn(Optional.of(new User(email, "1234", new HashSet<>())));
-        this.mockMvc.perform(get("/api/auth/token/refresh").header("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0eW11ci5mb3NoY2hAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9hcGkvYXV0aC9zaWduaW4iLCJleHAiOjE2NTg5ODk2MzZ9.OQAVwFOZ73RWfplySVB0inr30A7wLuK3xWK97tFoEAw"))
+        this.mockMvc.perform(get("/auth/token/refresh").header("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0eW11ci5mb3NoY2hAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9hcGkvYXV0aC9zaWduaW4iLCJleHAiOjE2NTg5ODk2MzZ9.OQAVwFOZ73RWfplySVB0inr30A7wLuK3xWK97tFoEAw"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()

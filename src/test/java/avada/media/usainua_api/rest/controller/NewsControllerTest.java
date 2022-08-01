@@ -31,7 +31,7 @@ class NewsControllerTest {
 
     @Test
     void responseOfGetAllNewsByPageShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllNewsByPage"))
+        mockMvc.perform(get("/getAllNewsByPage"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -41,7 +41,7 @@ class NewsControllerTest {
     void responseOfGetAllNewsByPageShouldBeOk() throws Exception {
         Page<News> newsPage = mock(Page.class);
         when(newsRepo.findAll(any(Pageable.class))).thenReturn(newsPage);
-        mockMvc.perform(get("/api/getAllNewsByPage")
+        mockMvc.perform(get("/getAllNewsByPage")
                         .param("pageNumber", "0")
                         .param("pageSize", "5")
                         .param("sortDirection", "DESC"))

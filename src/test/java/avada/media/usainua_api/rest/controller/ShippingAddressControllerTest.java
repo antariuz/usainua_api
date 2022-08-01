@@ -39,7 +39,7 @@ class ShippingAddressControllerTest {
 
     @Test
     void responseOfGetAllShippingAddressesShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllShippingAddresses"))
+        mockMvc.perform(get("/getAllShippingAddresses"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -50,7 +50,7 @@ class ShippingAddressControllerTest {
         User user = getUser();
         given(userRepo.findByEmail("user")).willReturn(Optional.of(user));
         given(shippingAddressRepo.findByUserId(user.getId())).willReturn(new ArrayList<>());
-        mockMvc.perform(get("/api/getAllShippingAddresses").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllShippingAddresses").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()
@@ -61,7 +61,7 @@ class ShippingAddressControllerTest {
 
     @Test
     void responseOfAddShippingAddressShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/addShippingAddress"))
+        mockMvc.perform(get("/addShippingAddress"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -73,7 +73,7 @@ class ShippingAddressControllerTest {
         when(userRepo.findByEmail("user")).thenReturn(Optional.of(user));
         when(shippingAddressRepo.findByUserId(user.getId())).thenReturn(new ArrayList<>());
         when(shippingAddressRepo.save(any(ShippingAddress.class))).thenReturn(new ShippingAddress());
-        mockMvc.perform(post("/api/addShippingAddress")
+        mockMvc.perform(post("/addShippingAddress")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new ShippingAddress())))
                 .andExpect(status().isCreated());
@@ -84,7 +84,7 @@ class ShippingAddressControllerTest {
 
     @Test
     void responseOfUpdateShippingAddressShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/updateShippingAddress"))
+        mockMvc.perform(get("/updateShippingAddress"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -95,7 +95,7 @@ class ShippingAddressControllerTest {
         User user = getUser();
         when(userRepo.findByEmail("user")).thenReturn(Optional.of(user));
         when(shippingAddressRepo.save(any(ShippingAddress.class))).thenReturn(new ShippingAddress());
-        mockMvc.perform(post("/api/addShippingAddress")
+        mockMvc.perform(post("/addShippingAddress")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new ShippingAddress())))
                 .andExpect(status().isCreated());
@@ -105,7 +105,7 @@ class ShippingAddressControllerTest {
 
     @Test
     void responseOfDeleteShippingAddressShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/deleteShippingAddress"))
+        mockMvc.perform(get("/deleteShippingAddress"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -114,14 +114,14 @@ class ShippingAddressControllerTest {
     @WithMockUser
     void responseOfDeleteShippingAddressShouldBeOk() throws Exception {
         doNothing().when(shippingAddressRepo).deleteById(1L);
-        mockMvc.perform(delete("/api/deleteShippingAddress").param("id", "1"))
+        mockMvc.perform(delete("/deleteShippingAddress").param("id", "1"))
                 .andExpect(status().isOk());
         verify(shippingAddressRepo).deleteById(1L);
     }
 
     @Test
     void responseOfSetDefaultShippingAddressShouldBeForbidden() throws Exception {
-        mockMvc.perform(patch("/api/setDefaultShippingAddress"))
+        mockMvc.perform(patch("/setDefaultShippingAddress"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -132,7 +132,7 @@ class ShippingAddressControllerTest {
         when(shippingAddressRepo.findShippingAddressByMainEquals(true)).thenReturn(new ShippingAddress());
         when(shippingAddressRepo.findById(1L)).thenReturn(Optional.of(new ShippingAddress()));
         when(shippingAddressRepo.save(any(ShippingAddress.class))).thenReturn(new ShippingAddress());
-        mockMvc.perform(patch("/api/setDefaultShippingAddress").param("id", "1"))
+        mockMvc.perform(patch("/setDefaultShippingAddress").param("id", "1"))
                 .andExpect(status().isOk());
         verify(shippingAddressRepo, times(1)).findShippingAddressByMainEquals(true);
         verify(shippingAddressRepo, times(2)).save(any(ShippingAddress.class));
@@ -141,7 +141,7 @@ class ShippingAddressControllerTest {
 
     @Test
     void responseOfGetAllCountriesShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllCountries"))
+        mockMvc.perform(get("/getAllCountries"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -149,7 +149,7 @@ class ShippingAddressControllerTest {
     @Test
     @WithMockUser
     void responseOfGetAllCountriesShouldBeOk() throws Exception {
-        mockMvc.perform(get("/api/getAllCountries").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllCountries").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()

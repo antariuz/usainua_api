@@ -14,7 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Api(tags = "user")
 @RequiredArgsConstructor
 public class UserController {

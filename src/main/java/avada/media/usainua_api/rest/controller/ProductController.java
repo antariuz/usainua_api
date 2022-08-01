@@ -1,31 +1,22 @@
 package avada.media.usainua_api.rest.controller;
 
-import avada.media.usainua_api.model.News;
 import avada.media.usainua_api.model.PageResponse;
 import avada.media.usainua_api.model.Product;
 import avada.media.usainua_api.model.ShoppingMall;
-import avada.media.usainua_api.model.delivery.ShippingAddress;
-import avada.media.usainua_api.model.user.User;
-import avada.media.usainua_api.repository.ProductRepo;
 import avada.media.usainua_api.repository.ShoppingMallRepo;
 import avada.media.usainua_api.service.ProductService;
-import avada.media.usainua_api.service.ShippingAddressService;
-import avada.media.usainua_api.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Api(tags = "products")
 @RequiredArgsConstructor
 public class ProductController {

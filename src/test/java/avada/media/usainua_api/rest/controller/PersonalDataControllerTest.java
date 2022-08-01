@@ -47,7 +47,7 @@ class PersonalDataControllerTest {
 
     @Test
     void responseOfGetPersonalDataShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getPersonalData"))
+        mockMvc.perform(get("/getPersonalData"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -58,7 +58,7 @@ class PersonalDataControllerTest {
         User user = getUser();
         given(userRepo.findByEmail(anyString())).willReturn(Optional.of(user));
         given(personalDataRepo.findById(anyLong())).willReturn(Optional.of(new PersonalData()));
-        mockMvc.perform(get("/api/getPersonalData").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getPersonalData").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string(new ObjectMapper().writeValueAsString(new PersonalData())));
@@ -68,7 +68,7 @@ class PersonalDataControllerTest {
 
     @Test
     void responseOfUpdatePersonalDataShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/updatePersonalData"))
+        mockMvc.perform(get("/updatePersonalData"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -80,7 +80,7 @@ class PersonalDataControllerTest {
         given(userRepo.findByEmail(anyString())).willReturn(Optional.of(user));
         given(personalDataRepo.findById(anyLong())).willReturn(Optional.of(new PersonalData()));
         when(personalDataRepo.save(any(PersonalData.class))).thenReturn(new PersonalData());
-        mockMvc.perform(get("/api/getPersonalData").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getPersonalData").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         verify(userRepo, times(1)).findByEmail(anyString());
         verify(personalDataRepo, times(1)).findById(anyLong());

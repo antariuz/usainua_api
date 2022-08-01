@@ -47,7 +47,7 @@ class OrderControllerTest {
 
     @Test
     void responseOfGetOrdersByPageShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getOrdersByPage"))
+        mockMvc.perform(get("/getOrdersByPage"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -60,7 +60,7 @@ class OrderControllerTest {
         given(userRepo.findByEmail("user")).willReturn(Optional.of(user));
         Page<Order> orders = mock(Page.class);
         when(orderRepo.findAllByUserId(anyLong(), any(Pageable.class))).thenReturn(orders);
-        mockMvc.perform(get("/api/getOrdersByPage").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(get("/getOrdersByPage").contentType(MediaType.APPLICATION_JSON)
                         .param("pageNumber", "0")
                         .param("pageSize", "5")
                         .param("sortBy", "id")
@@ -75,7 +75,7 @@ class OrderControllerTest {
 
     @Test
     void responseOfAddOrderShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/addOrder"))
+        mockMvc.perform(get("/addOrder"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -87,7 +87,7 @@ class OrderControllerTest {
         when(userRepo.findByEmail("user")).thenReturn(Optional.of(user));
         when(subOrderRepo.saveAll(anyCollection())).thenReturn(new ArrayList<>());
         when(orderRepo.save(any(Order.class))).thenReturn(new Order());
-        mockMvc.perform(post("/api/addOrder")
+        mockMvc.perform(post("/addOrder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new OrderDTO())))
                 .andExpect(status().isCreated());
@@ -98,7 +98,7 @@ class OrderControllerTest {
 
     @Test
     void responseOfGetOrderByIdShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getOrderById"))
+        mockMvc.perform(get("/getOrderById"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -109,7 +109,7 @@ class OrderControllerTest {
         User user = getUser();
         when(userRepo.findByEmail("user")).thenReturn(Optional.of(user));
         when(orderRepo.findOrderByIdAndUserId(1L, user.getId())).thenReturn(new Order());
-        mockMvc.perform(get("/api/getOrderById")
+        mockMvc.perform(get("/getOrderById")
                         .param("orderId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -122,7 +122,7 @@ class OrderControllerTest {
 
     @Test
     void responseOfDeleteOrderShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/deleteOrder"))
+        mockMvc.perform(get("/deleteOrder"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -131,14 +131,14 @@ class OrderControllerTest {
     @WithMockUser
     void responseOfDeleteOrderShouldBeOk() throws Exception {
         doNothing().when(orderRepo).deleteById(1L);
-        mockMvc.perform(delete("/api/deleteOrder").param("id", "1"))
+        mockMvc.perform(delete("/deleteOrder").param("id", "1"))
                 .andExpect(status().isOk());
         verify(orderRepo, times(1)).deleteOrderById(1L);
     }
 
     @Test
     void responseOfGetAllAdditionalServicesShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllAdditionalServices"))
+        mockMvc.perform(get("/getAllAdditionalServices"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -146,7 +146,7 @@ class OrderControllerTest {
     @Test
     @WithMockUser
     void responseOfGetAllAdditionalServicesShouldBeOk() throws Exception {
-        mockMvc.perform(get("/api/getAllAdditionalServices").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllAdditionalServices").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()

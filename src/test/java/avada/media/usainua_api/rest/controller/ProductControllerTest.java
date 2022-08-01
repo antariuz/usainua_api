@@ -37,7 +37,7 @@ class ProductControllerTest {
 
     @Test
     void responseOfGetAllProductsByPageShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getProductsByPage"))
+        mockMvc.perform(get("/getProductsByPage"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -47,7 +47,7 @@ class ProductControllerTest {
     void responseOfGetAllProductsByPageShouldBeOk() throws Exception {
         Page<Product> newsPage = mock(Page.class);
         when(productRepo.findAll(any(Pageable.class))).thenReturn(newsPage);
-        mockMvc.perform(get("/api/getProductsByPage").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(get("/getProductsByPage").contentType(MediaType.APPLICATION_JSON)
                         .param("pageNumber", "0")
                         .param("pageSize", "5")
                         .param("sortBy", "id")
@@ -61,7 +61,7 @@ class ProductControllerTest {
 
     @Test
     void responseOfGetAllCategoriesShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllCategories"))
+        mockMvc.perform(get("/getAllCategories"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -69,7 +69,7 @@ class ProductControllerTest {
     @Test
     @WithMockUser
     void responseOfGetAllCategoriesShouldBeOk() throws Exception {
-        mockMvc.perform(get("/api/getAllCategories").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllCategories").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()
@@ -78,7 +78,7 @@ class ProductControllerTest {
 
     @Test
     void responseOfGetAllShoppingMallsShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllShoppingMalls"))
+        mockMvc.perform(get("/getAllShoppingMalls"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -87,7 +87,7 @@ class ProductControllerTest {
     @WithMockUser
     void responseOfGetAllShoppingMallsShouldBeOk() throws Exception {
         given(shoppingMallRepo.findAll()).willReturn(new ArrayList<>());
-        mockMvc.perform(get("/api/getAllShoppingMalls").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllShoppingMalls").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()
