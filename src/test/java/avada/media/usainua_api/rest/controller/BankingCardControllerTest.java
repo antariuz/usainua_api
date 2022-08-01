@@ -48,7 +48,7 @@ class BankingCardControllerTest {
 
     @Test
     void responseOfGetAllBankingCardsShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllBankingCards"))
+        mockMvc.perform(get("/getAllBankingCards"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -59,7 +59,7 @@ class BankingCardControllerTest {
         User user = getUser();
         given(userRepo.findByEmail(anyString())).willReturn(Optional.of(user));
         when(bankingCardRepo.findByUserId(1L)).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/api/getAllBankingCards"))
+        mockMvc.perform(get("/getAllBankingCards"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().string("[]"));
@@ -69,7 +69,7 @@ class BankingCardControllerTest {
 
     @Test
     void responseOfAddBankingCardShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/addBankingCard"))
+        mockMvc.perform(get("/addBankingCard"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -81,7 +81,7 @@ class BankingCardControllerTest {
         given(userRepo.findByEmail(anyString())).willReturn(Optional.of(user));
         when(bankingCardRepo.findByUserId(user.getId())).thenReturn(new ArrayList<>());
         when(bankingCardRepo.save(any(BankingCard.class))).thenReturn(new BankingCard());
-        mockMvc.perform(post("/api/addBankingCard")
+        mockMvc.perform(post("/addBankingCard")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new BankingCard())))
                 .andExpect(status().isCreated());
@@ -94,7 +94,7 @@ class BankingCardControllerTest {
     @WithMockUser
     void deleteBankingCard() throws Exception {
         willDoNothing().given(bankingCardRepo).deleteById(1L);
-        mockMvc.perform(delete("/api/deleteBankingCard")
+        mockMvc.perform(delete("/deleteBankingCard")
                         .param("id", "1"))
                 .andExpect(status().isOk());
         verify(bankingCardRepo, times(1)).deleteById(anyLong());
@@ -106,7 +106,7 @@ class BankingCardControllerTest {
         when(bankingCardRepo.findBankingCardByMainEquals(true)).thenReturn(new BankingCard());
         when(bankingCardRepo.findById(2L)).thenReturn(Optional.of(new BankingCard()));
         when(bankingCardRepo.save(any(BankingCard.class))).thenReturn(new BankingCard());
-        mockMvc.perform(post("/api/setDefaultBankingCard")
+        mockMvc.perform(post("/setDefaultBankingCard")
                         .param("id", "2"))
                 .andExpect(status().isOk());
         verify(bankingCardRepo, times(1)).findBankingCardByMainEquals(true);

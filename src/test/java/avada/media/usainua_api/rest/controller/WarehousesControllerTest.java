@@ -31,7 +31,7 @@ class WarehousesControllerTest {
 
     @Test
     void responseOfGetAllWarehousesShouldBeForbidden() throws Exception {
-        mockMvc.perform(get("/api/getAllWarehouses"))
+        mockMvc.perform(get("/getAllWarehouses"))
                 .andExpect(status().isForbidden())
                 .andExpect(unauthenticated());
     }
@@ -40,7 +40,7 @@ class WarehousesControllerTest {
     @WithMockUser
     void responseOfGetAllWarehousesShouldBeOk() throws Exception {
         given(warehouseRepo.findAll()).willReturn(new ArrayList<>());
-        mockMvc.perform(get("/api/getAllWarehouses").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/getAllWarehouses").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content()
