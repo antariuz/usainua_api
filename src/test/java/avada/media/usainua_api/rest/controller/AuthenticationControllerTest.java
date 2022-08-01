@@ -96,6 +96,7 @@ class AuthenticationControllerTest {
     void refreshTokenWithNoTokenInHeader() throws Exception {
         this.mockMvc.perform(get("/auth/token/refresh"))
                 .andExpect(status().isForbidden())
+
                 .andExpect(status().reason(containsString("Refresh token has not been found or wrong")))
                 .andExpect(unauthenticated());
     }
