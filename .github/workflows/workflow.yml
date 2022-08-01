@@ -32,4 +32,4 @@ jobs:
           PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
         run: |
           cd target
-          curl -T *.war "http://$LOGIN:$PASSWORD@213.200.39.253/manager/text/deploy?&path=/usainua_api&update=true"
+          curl -T *.war "http://$LOGIN:$PASSWORD@213.200.39.253/manager/text/deploy?&path=/api&update=true"
