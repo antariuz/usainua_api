@@ -13,14 +13,12 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
@@ -46,12 +44,12 @@ public class AuthenticationController {
     @ApiOperation(value = "Send email confirmation code")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Check email string")
+            @ApiResponse(code = 400, message = "Check email string"),
+            @ApiResponse(code = 500, message = "Daily user sending quota exceeded")
     })
     @GetMapping("send_code")
     public ResponseEntity<Void> getEmailConfirmationCode(@RequestParam String email) {
-        return userService.sendEmailConfirmationCode(email)
-                ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userService.sendEmailConfirmationCode(email));
     }
 
     @ApiOperation("Sign in")
