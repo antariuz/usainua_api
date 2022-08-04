@@ -1,6 +1,5 @@
 package avada.media.usainua_api.service.impl;
 
-import avada.media.usainua_api.config.AppConst;
 import avada.media.usainua_api.model.user.PersonalData;
 import avada.media.usainua_api.model.user.Role;
 import avada.media.usainua_api.model.user.User;
@@ -10,6 +9,8 @@ import avada.media.usainua_api.service.PersonalDataService;
 import avada.media.usainua_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     Pattern.CASE_INSENSITIVE);
 
     @Override
-    public boolean sendEmailConfirmationCode(String email) {
+    public HttpStatus sendEmailConfirmationCode(String email) {
         if (EMAIL_REGEX_RFC822.matcher(email).matches()) {
             User user = new User();
             if (getUserByEmail(email).isPresent()) {
@@ -67,9 +68,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 );
                 personalDataService.savePersonalData(personalData);
             }
-            sendEmail(email, generatedPassword);
-            return true;
-        } else return false;
+            try {
+                sendEmail(email, generatedPassword);
+            } catch (MailSendException e) {
+                return HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+            return HttpStatus.OK;
+        } else return HttpStatus.BAD_REQUEST;
     }
 
     @Override
@@ -84,11 +89,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void saveUser(User user) {
         userRepo.save(user);
-    }
-
-    @Override
-    public Role saveRole(Role role) {
-        return roleRepo.save(role);
     }
 
     @Override
