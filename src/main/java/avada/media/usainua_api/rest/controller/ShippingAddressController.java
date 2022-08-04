@@ -68,7 +68,6 @@ public class ShippingAddressController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
     @ApiOperation(value = "Delete User Shipping Address by ID", authorizations = @Authorization("accessToken"))
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
