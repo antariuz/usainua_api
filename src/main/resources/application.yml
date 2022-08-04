@@ -36,8 +36,16 @@ spring:
 server:
   port: 8081
 logging:
+  file:
+    name: logs/usainua_api.log
   level:
+    org:
+      hibernate: info
+      springframework: info
     root: info
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
 security:
   jwt:
     secret: 'U3BhY2VMYWI='
